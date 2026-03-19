@@ -23,7 +23,7 @@ import me.jumper251.replay.utils.ReplayManager;
 public class ReplayStopCommand extends SubCommand {
 
 	public ReplayStopCommand(AbstractCommand parent) {
-		super(parent, "stop", "Stops and saves a replay", "stop <Name> [Options]", false);
+		super(parent, "stop", "停止并保存回放", "stop <名称> [选项]", false);
 	}
 
 	@Override

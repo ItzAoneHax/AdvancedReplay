@@ -17,7 +17,7 @@ import me.jumper251.replay.filesystem.saving.ReplaySaver;
 public class ReplayDeleteCommand extends SubCommand {
 
 	public ReplayDeleteCommand(AbstractCommand parent) {
-		super(parent, "delete", "Deletes a replay", "delete <Name>", false);
+		super(parent, "delete", "删除一个回放", "delete <名称>", false);
 	}
 
 	@Override

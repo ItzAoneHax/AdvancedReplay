@@ -554,7 +554,7 @@ public class ReplayingUtils {
 		}
 	}
 
-	private void sendLastInvAction() {
+	public void sendLastInvAction() {
 		for (INPC npc : replayer.getNPCList().values()) {
 			if (lastInventoryActions.containsKey(npc.getName())) {
 				Deque<InvData> invData = lastInventoryActions.get(npc.getName());

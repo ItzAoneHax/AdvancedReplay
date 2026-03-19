@@ -23,7 +23,7 @@ import me.jumper251.replay.utils.fetcher.Consumer;
 public class ReplayPlayCommand extends SubCommand {
 
 	public ReplayPlayCommand(AbstractCommand parent) {
-		super(parent, "play", "Starts a recorded replay", "play <Name>", true);
+		super(parent, "play", "开始播放一个录制的回放", "play <名称>", true);
 	}
 
 	@Override

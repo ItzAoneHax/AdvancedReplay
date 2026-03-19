@@ -17,7 +17,7 @@ import me.jumper251.replay.replaysystem.replaying.Replayer;
 public class ReplayLeaveCommand extends SubCommand {
 
 	public ReplayLeaveCommand(AbstractCommand parent) {
-		super(parent, "leave", "Leave your Replay", "leave", true);
+		super(parent, "leave", "离开回放", "leave", true);
 	}
 
 	@Override

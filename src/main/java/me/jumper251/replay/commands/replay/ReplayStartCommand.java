@@ -23,7 +23,7 @@ import me.jumper251.replay.utils.StringUtils;
 public class ReplayStartCommand extends SubCommand {
 
 	public ReplayStartCommand(AbstractCommand parent) {
-		super(parent, "start", "Records a new replay", "start [Name][:Duration] [<Players ...>]", false); 
+		super(parent, "start", "开始录制一个新的回放", "start [名称][:时长] [<玩家...>]", false); 
 	}
 
 	@Override

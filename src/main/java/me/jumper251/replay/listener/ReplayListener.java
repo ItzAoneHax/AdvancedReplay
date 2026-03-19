@@ -57,28 +57,38 @@ public class ReplayListener extends AbstractListener {
 				ItemMeta meta = p.getItemInHand().getItemMeta();
 				ItemConfigType itemType = ItemConfig.getByIdAndName(p.getItemInHand().getType(), meta.getDisplayName().replaceAll("§", "&"));
 				
-				if (itemType == ItemConfigType.PAUSE) {
-					replayer.setPaused(!replayer.isPaused(), true);
-					ReplayHelper.sendTitle(p, " ", "§c❙❙", 20);
-				}
-					
-				if (itemType == ItemConfigType.FORWARD) {
-					replayer.getUtils().forward();
-					ReplayHelper.sendTitle(p, " ", "§a»»", 20);
-
-				}
-				if (itemType == ItemConfigType.BACKWARD) {
-					replayer.getUtils().backward();
-					ReplayHelper.sendTitle(p, " ", "§c««", 20);
-
-				}
+		if (itemType == ItemConfigType.PAUSE) {
+			boolean wasPaused = replayer.isPaused();
+			replayer.setPaused(!replayer.isPaused(), true);
+			if (!wasPaused) {
+				ReplayHelper.sendTitle(p, " ", "§c❙❙", 20);
+			} else {
+				ReplayHelper.sendTitle(p, " ", "§a➤", 20);
+			}
+		}
 				
-				
-				if (itemType == ItemConfigType.RESUME) {
-					replayer.setPaused(!replayer.isPaused(), true);
-					ReplayHelper.sendTitle(p, " ", "§a➤", 20);
+			if (itemType == ItemConfigType.FORWARD) {
+				replayer.getUtils().forward();
+				ReplayHelper.sendTitle(p, " ", "§a»»", 20);
 
-				}
+			}
+			if (itemType == ItemConfigType.BACKWARD) {
+				replayer.getUtils().backward();
+				ReplayHelper.sendTitle(p, " ", "§c««", 20);
+
+			}
+			
+			
+		if (itemType == ItemConfigType.RESUME) {
+			boolean wasPaused = replayer.isPaused();
+			replayer.setPaused(!replayer.isPaused(), true);
+			if (wasPaused) {
+				ReplayHelper.sendTitle(p, " ", "§a➤", 20);
+			} else {
+				ReplayHelper.sendTitle(p, " ", "§c❙❙", 20);
+			}
+
+		}
 				
 				if (itemType == ItemConfigType.SPEED) {
 					if (p.isSneaking()) {
@@ -136,7 +146,7 @@ public class ReplayListener extends AbstractListener {
                 // Avoid IncompatibleClassChangeError < 1.21
                 String title = VersionUtil.isAbove(VersionUtil.VersionEnum.V1_21) ? e.getView().getTitle() : LegacyUtils.getInventoryTitle(e);
 
-                if (title.equalsIgnoreCase("§7Teleporter")) {
+                if (title.equalsIgnoreCase("§7传送器")) {
                     Replayer replayer = ReplayHelper.replaySessions.get(p.getName());
 
                     if (e.getCurrentItem() != null && e.getCurrentItem().getItemMeta() != null && e.getCurrentItem().getItemMeta().getDisplayName() != null) {

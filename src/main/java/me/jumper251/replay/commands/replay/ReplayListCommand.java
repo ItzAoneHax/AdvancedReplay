@@ -33,7 +33,7 @@ import net.md_5.bungee.api.chat.HoverEvent.Action;
 public class ReplayListCommand extends SubCommand {
 
 	public ReplayListCommand(AbstractCommand parent) {
-		super(parent, "list", "Lists all replays", "list [Page]", false);
+		super(parent, "list", "列出所有回放", "list [页数]", false);
 	}
 
 	@Override
