@@ -26,7 +26,7 @@ public class ReplayMigrateCommand extends SubCommand {
 	private List<String> options = Arrays.asList("file", "database");
 	
 	public ReplayMigrateCommand(AbstractCommand parent) {
-		super(parent, "migrate", "Migrate all replays", "migrate <File|Database>", false);
+		super(parent, "migrate", "迁移所有回放", "migrate <文件|数据库>", false);
 		
 		this.setEnabled(false);
 	}

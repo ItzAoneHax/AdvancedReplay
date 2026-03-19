@@ -17,6 +17,9 @@ import java.util.Optional;
 
 import me.jumper251.replay.filesystem.MessageBuilder;
 import me.jumper251.replay.filesystem.Messages;
+import me.jumper251.replay.filesystem.ItemConfig;
+import me.jumper251.replay.filesystem.ItemConfigType;
+import me.jumper251.replay.filesystem.ItemConfigOption;
 import me.jumper251.replay.replaysystem.replaying.session.ReplaySession;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -59,7 +62,9 @@ public class Replayer {
 	private double speed, tmpTicks;
 	
 	private boolean paused, started;
-	
+
+	private boolean ended;
+
 	private ReplayingUtils utils;
 	private ReplaySession session;
 		
@@ -73,6 +78,7 @@ public class Replayer {
 		this.utils = new ReplayingUtils(this);
 		this.session = new ReplaySession(this);
 		this.paused = false;
+		this.ended = false;
 	}
 	
 	
@@ -130,14 +136,28 @@ public class Replayer {
 					}
 					
 				} else {
-					
-					stop();
+					setPaused(true, false);
+					new BukkitRunnable() {
+						@Override
+						public void run() {
+							ItemConfigOption pauseResume = ItemConfig.getItem(ItemConfigType.RESUME);
+							watcher.getInventory().setItem(pauseResume.getSlot(), ReplayHelper.getResumeItem());
+						}
+					}.runTask(ReplaySystem.getInstance());
 				}
 			}
 		};
 		
 		this.run.runTaskTimerAsynchronously(ReplaySystem.getInstance(), 1, 1);
 
+		this.setPaused(true, false);
+		new BukkitRunnable() {
+			@Override
+			public void run() {
+				ItemConfigOption pauseResume = ItemConfig.getItem(ItemConfigType.RESUME);
+				watcher.getInventory().setItem(pauseResume.getSlot(), ReplayHelper.getResumeItem());
+			}
+		}.runTask(ReplaySystem.getInstance());
 		return true;
 	}
 
@@ -163,7 +183,7 @@ public class Replayer {
 			
 			}
 			
-			if (tick == 0) data.getActions().remove(tick);
+			// keep tick 0 actions to allow restarting the replay from the beginning
 		}
 	}
 
@@ -207,6 +227,22 @@ public class Replayer {
             ReplayHelper.sendClientPause(watcher, false);
         }
 	}
+
+	private void restart() {
+		boolean paused = this.paused;
+		this.setPaused(true);
+		
+		int currentTick = this.currentTicks;
+		int targetTicks = 0;
+		
+		for (int i = currentTick; i > targetTicks; i--) {
+			executeTick(i, ReplayingMode.REVERSED);
+		}
+		
+		this.utils.sendLastInvAction();
+		this.setCurrentTicks(targetTicks);
+		this.setPaused(paused);
+	}
 	
 	public HashMap<String, INPC> getNPCList() {
 		return npcs;
@@ -243,6 +279,12 @@ public class Replayer {
     public void setPaused(boolean paused, boolean updateClient) {
         if (updateClient) {
             ReplayHelper.sendClientPause(watcher, paused);
+        }
+
+        if (!paused && this.paused) {
+            if (currentTicks >= replay.getData().getDuration()) {
+                restart();
+            }
         }
 
         this.paused = paused;

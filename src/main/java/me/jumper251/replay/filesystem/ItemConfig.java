@@ -112,19 +112,19 @@ public class ItemConfig {
     }
 
     private static void addDefaults() {
-        items.put(ItemConfigType.TELEPORT, new ItemConfigOption(Material.COMPASS, "&7Teleport", 0));
-        items.put(ItemConfigType.SPEED, new ItemConfigOption(MaterialBridge.CLOCK.toMaterial(), "&cSlow &8[&eRight&8] &aFast &8[&eShift Right&8]", 1));
-        items.put(ItemConfigType.LEAVE, new ItemConfigOption(MaterialBridge.OAK_DOOR.toMaterial(), "&7Leave replay", 8));
-        items.put(ItemConfigType.RESUME, new ItemConfigOption(Material.SLIME_BLOCK, "&aResume", 4));
+        items.put(ItemConfigType.TELEPORT, new ItemConfigOption(Material.COMPASS, "&7传送", 0));
+        items.put(ItemConfigType.SPEED, new ItemConfigOption(MaterialBridge.CLOCK.toMaterial(), "&c减速 &8[&e右键&8] &a加速 &8[&eShift右键&8]", 1));
+        items.put(ItemConfigType.LEAVE, new ItemConfigOption(MaterialBridge.OAK_DOOR.toMaterial(), "&7退出回放", 8));
+        items.put(ItemConfigType.RESUME, new ItemConfigOption(Material.SLIME_BLOCK, "&a继续", 4));
 
         if (VersionUtil.isAbove(VersionUtil.VersionEnum.V1_21)) {
-            items.put(ItemConfigType.FORWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&a» &e10 seconds", 5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM0ZWYwNjM4NTM3MjIyYjIwZjQ4MDY5NGRhZGMwZjg1ZmJlMDc1OWQ1ODFhYTdmY2RmMmU0MzEzOTM3NzE1OCJ9fX0="));
-            items.put(ItemConfigType.BACKWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c« &e10 seconds", 3, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdhYWNhZDE5M2UyMjI2OTcxZWQ5NTMwMmRiYTQzMzQzOGJlNDY0NGZiYWI1ZWJmODE4MDU0MDYxNjY3ZmJlMiJ9fX0="));
-            items.put(ItemConfigType.PAUSE, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&cPause", 4, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM4NTFjZmI2NzE3Nzk1OTc0ZDMyMmU3YmI2OThlOWFiNTdlMWUwZTIyOTUwNDg2YTY5OWM4MThlMDJlOTBiMjkifX19"));
+            items.put(ItemConfigType.FORWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&a» &e10秒", 5, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDM0ZWYwNjM4NTM3MjIyYjIwZjQ4MDY5NGRhZGMwZjg1ZmJlMDc1OWQ1ODFhYTdmY2RmMmU0MzEzOTM3NzE1OCJ9fX0="));
+            items.put(ItemConfigType.BACKWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c« &e10秒", 3, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjdhYWNhZDE5M2UyMjI2OTcxZWQ5NTMwMmRiYTQzMzQzOGJlNDY0NGZiYWI1ZWJmODE4MDU0MDYxNjY3ZmJlMiJ9fX0="));
+            items.put(ItemConfigType.PAUSE, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c暂停", 4, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHBzOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzM4NTFjZmI2NzE3Nzk1OTc0ZDMyMmU3YmI2OThlOWFiNTdlMWUwZTIyOTUwNDg2YTY5OWM4MThlMDJlOTBiMjkifX19"));
         } else {
-            items.put(ItemConfigType.FORWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&a» &e10 seconds", 5, "MHF_ArrowRight", 3));
-            items.put(ItemConfigType.BACKWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c« &e10 seconds", 3, "MHF_ArrowLeft", 3));
-            items.put(ItemConfigType.PAUSE, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&cPause", 4, "Push_red_button", 3));
+            items.put(ItemConfigType.FORWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&a» &e10秒", 5, "MHF_ArrowRight", 3));
+            items.put(ItemConfigType.BACKWARD, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c« &e10秒", 3, "MHF_ArrowLeft", 3));
+            items.put(ItemConfigType.PAUSE, new ItemConfigOption(MaterialBridge.PLAYER_HEAD.toMaterial(), "&c暂停", 4, "Push_red_button", 3));
         }
     }
 

@@ -19,7 +19,7 @@ import me.jumper251.replay.utils.MathUtils;
 public class ReplayJumpCommand extends SubCommand {
 
 	public ReplayJumpCommand(AbstractCommand parent) {
-		super(parent, "jump", "Jump to a specific moment", "jump <Time in Seconds>", true);
+		super(parent, "jump", "跳转到指定时刻", "jump <时间(秒)>", true);
 	}
 
 	@Override

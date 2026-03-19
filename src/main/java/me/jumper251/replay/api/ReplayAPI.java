@@ -100,6 +100,18 @@ public class ReplayAPI {
 			}
 		}
 	}
+
+	public void jumpToReplayTick(Player watcher, Integer tick) {
+		if (ReplayHelper.replaySessions.containsKey(watcher.getName())) {
+			Replayer replayer = ReplayHelper.replaySessions.get(watcher.getName());
+			if (replayer != null) {
+				int duration = replayer.getReplay().getData().getDuration();
+				if (tick > 0 && tick <= duration) {
+					replayer.getUtils().jumpToTick(tick);
+				}
+			}
+		}
+	}
 	
 	public void registerReplaySaver(IReplaySaver replaySaver) {
 		ReplaySaver.register(replaySaver);

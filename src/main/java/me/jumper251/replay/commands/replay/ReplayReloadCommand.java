@@ -14,7 +14,7 @@ import me.jumper251.replay.filesystem.ConfigManager;
 public class ReplayReloadCommand extends SubCommand {
 
 	public ReplayReloadCommand(AbstractCommand parent) {
-		super(parent, "reload", "Reloads the config", "reload", false);
+		super(parent, "reload", "重新加载配置", "reload", false);
 	}
 
 	@Override

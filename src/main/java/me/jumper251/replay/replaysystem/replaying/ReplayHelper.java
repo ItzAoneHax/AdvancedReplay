@@ -85,7 +85,7 @@ public class ReplayHelper {
         List<String> elements = npcNames.subList((page - 1) * pageSize, Math.min(page * pageSize, npcNames.size()));
 
         int inventorySize = Math.max(9, pages > 1 ? pageSize + 9 : pageSize);
-        Inventory inv = Bukkit.createInventory(null, inventorySize, "§7Teleporter");
+        Inventory inv = Bukkit.createInventory(null, inventorySize, "§7传送器");
 
         int index = 0;
 

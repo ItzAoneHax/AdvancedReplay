@@ -432,28 +432,32 @@ public class ReplayingUtils {
 	}
 	
 	public void jumpTo(Integer seconds) {
-		int targetTicks = (seconds * 20);
+		jumpToTick(seconds * 20);
+	}
+	
+	public void jumpToTick(int tick) {
 		int currentTick = replayer.getCurrentTicks();
-		if (currentTick > targetTicks) {
+		if (currentTick > tick) {
 			this.replayer.setPaused(true);
 			
-			if ((targetTicks - 2) > 0) {
-				for (int i = currentTick; i > targetTicks; i--) {
+			if ((tick - 2) > 0) {
+				for (int i = currentTick; i > tick; i--) {
 					this.replayer.executeTick(i, ReplayingMode.REVERSED);
 				}
 				
-				this.replayer.setCurrentTicks(targetTicks);
+				sendLastInvAction();
+				this.replayer.setCurrentTicks(tick);
 				this.replayer.setPaused(false);
 			}
-		} else if (currentTick < targetTicks) {
+		} else if (currentTick < tick) {
 			this.replayer.setPaused(true);
 			int duration = replayer.getReplay().getData().getDuration();
 			
-			if ((targetTicks + 2) < duration) {
-				for (int i = currentTick; i < targetTicks; i++) {
+			if ((tick + 2) < duration) {
+				for (int i = currentTick; i < tick; i++) {
 					this.replayer.executeTick(i, ReplayingMode.FORWARD);
 				}
-				this.replayer.setCurrentTicks(targetTicks);
+				this.replayer.setCurrentTicks(tick);
 				this.replayer.setPaused(false);
 			}
 		}
@@ -554,7 +558,7 @@ public class ReplayingUtils {
 		}
 	}
 
-	private void sendLastInvAction() {
+	public void sendLastInvAction() {
 		for (INPC npc : replayer.getNPCList().values()) {
 			if (lastInventoryActions.containsKey(npc.getName())) {
 				Deque<InvData> invData = lastInventoryActions.get(npc.getName());

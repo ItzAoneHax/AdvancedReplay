@@ -12,9 +12,9 @@ public class ReplaySessionFinishEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
 
     private Replay replay;
-    
+
     private Player player;
-    
+
     public ReplaySessionFinishEvent(Replay replay, Player player) {
     	super(!Bukkit.isPrimaryThread());
     	

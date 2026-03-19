@@ -1,13 +1,11 @@
 package me.jumper251.replay.replaysystem;
 
 import java.util.Arrays;
-
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 
 import me.jumper251.replay.ReplaySystem;
 import me.jumper251.replay.replaysystem.data.ReplayData;
@@ -107,6 +105,24 @@ public class Replay {
 	
 	public void setPlaying(boolean isPlaying) {
 		this.isPlaying = isPlaying;
+	}
+	
+	public void jumpTo(Integer seconds) {
+		if (this.replayer != null && this.isPlaying && this.data != null) {
+			int duration = this.data.getDuration() / 20;
+			if (seconds > 0 && seconds <= duration) {
+				this.replayer.getUtils().jumpTo(seconds);
+			}
+		}
+	}
+	
+	public void jumpToTick(Integer tick) {
+		if (this.replayer != null && this.isPlaying && this.data != null) {
+			int duration = this.data.getDuration();
+			if (tick > 0 && tick <= duration) {
+				this.replayer.getUtils().jumpToTick(tick);
+			}
+		}
 	}
 	
 	public void setReplayInfo(ReplayInfo replayInfo) {

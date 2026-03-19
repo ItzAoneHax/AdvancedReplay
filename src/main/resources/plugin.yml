@@ -6,13 +6,13 @@ depend: [ProtocolLib]
 api-version: 1.13
 commands:
   replay:
-    description: Main Replay command
+    description: 主回放命令
     aliases: [rp]
     permission: replay.command
 
 permissions:
   replay.command:
-    description: Permission to use the replay command
+    description: 使用回放命令的权限
   replay.command.start:
     default: op
   replay.command.stop:
@@ -34,4 +34,4 @@ permissions:
   replay.command.jump:
     default: op
   replay.admin:
-    description: Permission to receive update notifications
+    description: 接收更新通知的权限

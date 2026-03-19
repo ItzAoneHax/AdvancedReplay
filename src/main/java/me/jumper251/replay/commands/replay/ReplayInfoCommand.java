@@ -27,7 +27,7 @@ import net.md_5.bungee.api.chat.HoverEvent.Action;
 public class ReplayInfoCommand extends SubCommand {
 
 	public ReplayInfoCommand(AbstractCommand parent) {
-		super(parent, "info", "Information about a Replay", "info <Name>", false);
+		super(parent, "info", "查看回放的信息", "info <名称>", false);
 	}
 
 	@Override
