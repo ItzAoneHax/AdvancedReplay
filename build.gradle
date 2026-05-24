@@ -55,7 +55,7 @@ allprojects {
 }
 
 shadowJar {
-    archiveFileName = 'AdvancedReplay.jar'
+    archiveFileName = 'AdvancedReplay-' + version + ".jar"
 
     relocate 'com.alessiodp.libby', 'me.jumper251.replay.libs.com.alessiodp.libby'
     relocate 'com.comphenix.packetwrapper', 'me.jumper251.replay.libs.com.comphenix.packetwrapper'
