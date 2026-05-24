@@ -28,7 +28,7 @@ dependencies {
 
 allprojects {
     group = 'me.jumper251.replay'
-    version = '1.8.17-EX'
+    version = '1.8.18-EX'
 
     apply plugin: 'java'
     apply plugin: 'maven-publish'
