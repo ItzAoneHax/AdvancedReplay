@@ -410,6 +410,16 @@ public class ReplayingUtils {
 		this.replayer.setCurrentTicks(forwardTicks);
 		this.replayer.setPaused(paused);
 	}
+
+	public void forwardOneTick() {
+		int currentTick = this.replayer.getCurrentTicks();
+		int duration = this.replayer.getReplay().getData().getDuration();
+
+		if (currentTick + 1 >= duration) return;
+
+		this.replayer.executeTick(currentTick, ReplayingMode.FORWARD);
+		this.replayer.setCurrentTicks(currentTick + 1);
+	}
 	
 	public void backward() {
 		boolean paused = this.replayer.isPaused();
@@ -429,6 +439,16 @@ public class ReplayingUtils {
 		sendLastInvAction();
 		this.replayer.setCurrentTicks(backwardTicks);
 		this.replayer.setPaused(paused);
+	}
+
+	public void backwardOneTick() {
+		int currentTick = this.replayer.getCurrentTicks();
+
+		if (currentTick - 1 < 0) return;
+
+		this.replayer.executeTick(currentTick, ReplayingMode.REVERSED);
+		sendLastInvAction();
+		this.replayer.setCurrentTicks(currentTick - 1);
 	}
 	
 	public void jumpTo(Integer seconds) {

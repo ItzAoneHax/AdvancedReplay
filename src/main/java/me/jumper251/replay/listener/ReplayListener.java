@@ -4,13 +4,7 @@ package me.jumper251.replay.listener;
 
 import java.util.Arrays;
 
-
-import me.jumper251.replay.filesystem.*;
-import me.jumper251.replay.legacy.LegacyUtils;
-import me.jumper251.replay.utils.VersionUtil;
-import me.jumper251.replay.utils.version.MaterialBridge;
 import org.bukkit.Chunk;
-
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,12 +26,19 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-
 import me.jumper251.replay.ReplaySystem;
+import me.jumper251.replay.filesystem.ConfigManager;
+import me.jumper251.replay.filesystem.ItemConfig;
+import me.jumper251.replay.filesystem.ItemConfigOption;
+import me.jumper251.replay.filesystem.ItemConfigType;
+import me.jumper251.replay.filesystem.Messages;
+import me.jumper251.replay.legacy.LegacyUtils;
 import me.jumper251.replay.replaysystem.replaying.ReplayHelper;
 import me.jumper251.replay.replaysystem.replaying.ReplayPacketListener;
 import me.jumper251.replay.replaysystem.replaying.Replayer;
 import me.jumper251.replay.replaysystem.utils.entities.INPC;
+import me.jumper251.replay.utils.VersionUtil;
+import me.jumper251.replay.utils.version.MaterialBridge;
 
 
 public class ReplayListener extends AbstractListener {
@@ -45,7 +46,8 @@ public class ReplayListener extends AbstractListener {
 	@SuppressWarnings("deprecation")
 	@EventHandler (priority = EventPriority.MONITOR)
 	public void onInteract(PlayerInteractEvent e) {
-		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK
+				|| e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK) {
 			Player p = e.getPlayer();
 			if (ReplayHelper.replaySessions.containsKey(p.getName())) {
 				e.setCancelled(true);
@@ -54,8 +56,31 @@ public class ReplayListener extends AbstractListener {
 				if (p.getItemInHand() == null) return;
 				if (p.getItemInHand().getItemMeta() == null) return;
 				
+				boolean isLeftClick = e.getAction() == Action.LEFT_CLICK_AIR || e.getAction() == Action.LEFT_CLICK_BLOCK;
+				
 				ItemMeta meta = p.getItemInHand().getItemMeta();
 				ItemConfigType itemType = ItemConfig.getByIdAndName(p.getItemInHand().getType(), meta.getDisplayName().replaceAll("§", "&"));
+				
+			if (itemType == ItemConfigType.FORWARD) {
+				if (isLeftClick) {
+					replayer.getUtils().forwardOneTick();
+				} else {
+					replayer.getUtils().forward();
+					ReplayHelper.sendTitle(p, " ", "§a»»", 20);
+				}
+
+			}
+			if (itemType == ItemConfigType.BACKWARD) {
+				if (isLeftClick) {
+					replayer.getUtils().backwardOneTick();
+				} else {
+					replayer.getUtils().backward();
+					ReplayHelper.sendTitle(p, " ", "§c««", 20);
+				}
+
+			}
+
+			if (!isLeftClick) {
 				
 		if (itemType == ItemConfigType.PAUSE) {
 			boolean wasPaused = replayer.isPaused();
@@ -66,18 +91,6 @@ public class ReplayListener extends AbstractListener {
 				ReplayHelper.sendTitle(p, " ", "§a➤", 20);
 			}
 		}
-				
-			if (itemType == ItemConfigType.FORWARD) {
-				replayer.getUtils().forward();
-				ReplayHelper.sendTitle(p, " ", "§a»»", 20);
-
-			}
-			if (itemType == ItemConfigType.BACKWARD) {
-				replayer.getUtils().backward();
-				ReplayHelper.sendTitle(p, " ", "§c««", 20);
-
-			}
-			
 			
 		if (itemType == ItemConfigType.RESUME) {
 			boolean wasPaused = replayer.isPaused();
@@ -129,7 +142,7 @@ public class ReplayListener extends AbstractListener {
 					}
 				}
 				
-				
+			}
 				
 			}
 		}
