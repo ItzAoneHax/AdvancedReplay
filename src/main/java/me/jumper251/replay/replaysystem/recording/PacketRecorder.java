@@ -1,6 +1,35 @@
 package me.jumper251.replay.replaysystem.recording;
 
-import com.comphenix.packetwrapper.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
+
+import com.comphenix.packetwrapper.WrapperPlayClientBlockDig;
+import com.comphenix.packetwrapper.WrapperPlayClientEntityAction;
+import com.comphenix.packetwrapper.WrapperPlayClientLook;
+import com.comphenix.packetwrapper.WrapperPlayClientPosition;
+import com.comphenix.packetwrapper.WrapperPlayClientPositionLook;
+import com.comphenix.packetwrapper.WrapperPlayServerEntityDestroy;
+import com.comphenix.packetwrapper.WrapperPlayServerEntityTeleport;
+import com.comphenix.packetwrapper.WrapperPlayServerEntityVelocity;
+import com.comphenix.packetwrapper.WrapperPlayServerRelEntityMove;
+import com.comphenix.packetwrapper.WrapperPlayServerRelEntityMoveLook;
+import com.comphenix.packetwrapper.WrapperPlayServerSpawnEntity;
+import com.comphenix.packetwrapper.WrapperPlayServerSpawnEntityLiving;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.ListenerPriority;
@@ -8,25 +37,30 @@ import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerAction;
 import com.comphenix.protocol.wrappers.EnumWrappers.PlayerDigType;
+
 import me.jumper251.replay.ReplaySystem;
 import me.jumper251.replay.filesystem.ConfigManager;
 import me.jumper251.replay.listener.AbstractListener;
-import me.jumper251.replay.replaysystem.data.types.*;
+import me.jumper251.replay.replaysystem.data.types.AnimationData;
+import me.jumper251.replay.replaysystem.data.types.EntityActionData;
+import me.jumper251.replay.replaysystem.data.types.EntityData;
+import me.jumper251.replay.replaysystem.data.types.EntityDestroyData;
+import me.jumper251.replay.replaysystem.data.types.EntityItemData;
+import me.jumper251.replay.replaysystem.data.types.EntityMovingData;
+import me.jumper251.replay.replaysystem.data.types.ExplosionData;
+import me.jumper251.replay.replaysystem.data.types.FishingData;
+import me.jumper251.replay.replaysystem.data.types.LocationData;
+import me.jumper251.replay.replaysystem.data.types.MetadataUpdate;
+import me.jumper251.replay.replaysystem.data.types.MovingData;
+import me.jumper251.replay.replaysystem.data.types.PacketData;
+import me.jumper251.replay.replaysystem.data.types.TNTSpawnData;
+import me.jumper251.replay.replaysystem.data.types.VelocityData;
 import me.jumper251.replay.replaysystem.recording.optimization.ReplayOptimizer;
 import me.jumper251.replay.replaysystem.utils.NPCManager;
 import me.jumper251.replay.replaysystem.utils.entities.EntityMappings;
 import me.jumper251.replay.utils.VersionUtil;
 import me.jumper251.replay.utils.VersionUtil.VersionEnum;
 import me.jumper251.replay.utils.version.EntityBridge;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.entity.*;
-import org.bukkit.util.Vector;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 public class PacketRecorder extends AbstractListener {
@@ -91,9 +125,10 @@ public class PacketRecorder extends AbstractListener {
 						WrapperPlayClientPosition packet = new WrapperPlayClientPosition(event.getPacket());
 						data = new MovingData(packet.getX(), packet.getY(), packet.getZ(), p.getLocation().getPitch(), p.getLocation().getYaw());
 						
-						if (recorder.getData().getWatcher(p.getName()).isBurning() && p.getFireTicks() <= 20) {
-							recorder.getData().getWatcher(p.getName()).setBurning(false);
-							addData(p.getName(), new MetadataUpdate(false, recorder.getData().getWatcher(p.getName()).isBlocking(), recorder.getData().getWatcher(p.getName()).isElytra()));
+						PlayerWatcher watcher = recorder.getData().getWatcher(p.getName());
+						if (watcher != null && watcher.isBurning() && p.getFireTicks() <= 20) {
+							watcher.setBurning(false);
+							addData(p.getName(), new MetadataUpdate(false, watcher.isBlocking(), watcher.isElytra()));
 						}
 						
 					}
@@ -125,8 +160,8 @@ public class PacketRecorder extends AbstractListener {
 						WrapperPlayClientBlockDig packet = new WrapperPlayClientBlockDig(event.getPacket());
 						
 						if (packet.getStatus() == PlayerDigType.RELEASE_USE_ITEM) {
-							if (recorder.getData().getWatcher(p.getName()).isBlocking()) {
-								PlayerWatcher watcher = recorder.getData().getWatcher(p.getName());
+							PlayerWatcher watcher = recorder.getData().getWatcher(p.getName());
+							if (watcher != null && watcher.isBlocking()) {
 								watcher.setBlocking(false);
 								addData(p.getName(), MetadataUpdate.fromWatcher(watcher));
 							}
